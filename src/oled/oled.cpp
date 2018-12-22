@@ -1,29 +1,38 @@
 #include "oled.h"
 #include <SSD1306Wire.h>
 
-class Oled {
-    private:
-        int _interface = 0x3c;
-        int _SCL_pin;
-        int _SDA_pin;
-        int _resoluton;
-        SSD1306Wire display;
-
-    public:
-        Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution);
-
-        void Show(String title, int value);
+oled::oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution) :
+    display(interface, SCL_pin, SDA_pin, resolution)
+{
 };
 
-Oled::Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution) {
-    _interface = interface;
-    _SCL_pin = SCL_pin;
-    _SDA_pin = SDA_pin;
-    _resoluton = resolution;
-
-    display = SSD1306Wire(0x3c, 21, 22, GEOMETRY_128_32);
+void oled::showBar(String title, int value) {
+    display.clear();
+    display.setFont(ArialMT_Plain_16);
+    display.drawString(0, 0, title + ": " + value);
+    display.drawRect(0, 18, display.width() - 1, display.height() - 18);
+    display.fillRect(2, 20, (display.width() / 2) - 3, display.height() - 22);
+    display.display();
 };
 
-void Oled::Show(String title, int value) {
-    //display.
-};
+void oled::showBool(String title, int value) {
+    display.clear();
+    display.setFont(ArialMT_Plain_16);
+    display.drawString(0, 0, title + ": " + (value ? "An" : "Aus") );
+    display.display();
+}
+
+void oled::showMessage(String message) {
+    display.clear();
+    display.setFont(ArialMT_Plain_16);
+    display.drawString(0, 0, message);
+    display.display();
+}
+
+void oled::activate() {
+    // not yet implemented
+}
+
+void oled::deactivate() {
+    // not yet implemented
+}
