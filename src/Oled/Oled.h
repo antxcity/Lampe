@@ -1,11 +1,14 @@
+#ifndef __INC_ANTXCITY_OLED_H
+#define __INC_ANTXCITY_OLED_H
+
 #include <SSD1306Wire.h>
 
-class oled {
+class Oled {
     private:
         SSD1306Wire display;
 
     public:
-        oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution);
+        Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution);
 
         void showBar(String title, int value);
         void showBool(String title, int value);
@@ -14,3 +17,5 @@ class oled {
         void activate();
         void deactivate();
 };
+
+#endif

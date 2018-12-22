@@ -1,5 +1,5 @@
-#ifndef INC_CJOYSTICK_H
-#define INC_CJOYSTICK_H
+#ifndef __INC_ANTXCITY_JOYSTICK_H
+#define __INC_ANTXCITY_JOYSTICK_H
 
 class IJoystickHandler 
 {
@@ -19,7 +19,7 @@ class IJoystickHandler
         virtual void onChanged() = 0;
 };
 
-class CSerialJoystickHandler : public IJoystickHandler {
+class SerialJoystickHandler : public IJoystickHandler {
     virtual void onLeftIn();
     virtual void onLeftOut();
     virtual void onRightIn();
@@ -33,7 +33,7 @@ class CSerialJoystickHandler : public IJoystickHandler {
     virtual void onChanged();
 };
 
-class CJoystick {
+class Joystick {
     private:
         int m_x_pin = 0; 
         int m_y_pin = 0;
@@ -55,7 +55,7 @@ class CJoystick {
         int m_y = 0;
         int m_s = 0;
 
-        IJoystickHandler *m_joystick_handler = NULL;
+        IJoystickHandler *m_joystick_handler = 0;
 
     protected:
         bool handleXAxis();
@@ -63,7 +63,7 @@ class CJoystick {
         bool handleSwitch();
 
     public:
-        CJoystick(int x_pin, int y_pin, int switch_pin);
+        Joystick(int x_pin, int y_pin, int switch_pin);
         void read();
         void print();
 

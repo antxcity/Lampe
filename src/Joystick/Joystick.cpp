@@ -1,20 +1,20 @@
 #include <Arduino.h>
-#include "joystick.h"
+#include "Joystick.h"
 
-void CSerialJoystickHandler::onLeftIn()     { Serial.println("Left in"); }
-void CSerialJoystickHandler::onLeftOut()    { Serial.println("Left out"); }
-void CSerialJoystickHandler::onRightIn()    { Serial.println("Right in"); }
-void CSerialJoystickHandler::onRightOut()   { Serial.println("Right out"); }
-void CSerialJoystickHandler::onDownIn()     { Serial.println("Down in"); }
-void CSerialJoystickHandler::onDownOut()    { Serial.println("Down out"); }
-void CSerialJoystickHandler::onUpIn()       { Serial.println("Up in"); }
-void CSerialJoystickHandler::onUpOut()      { Serial.println("Up out"); }
-void CSerialJoystickHandler::onSwitchDown() { Serial.println("Switch down"); }
-void CSerialJoystickHandler::onSwitchUp()   { Serial.println("Switch up"); }
-void CSerialJoystickHandler::onChanged()    { }
+void SerialJoystickHandler::onLeftIn()     { Serial.println("Left in"); }
+void SerialJoystickHandler::onLeftOut()    { Serial.println("Left out"); }
+void SerialJoystickHandler::onRightIn()    { Serial.println("Right in"); }
+void SerialJoystickHandler::onRightOut()   { Serial.println("Right out"); }
+void SerialJoystickHandler::onDownIn()     { Serial.println("Down in"); }
+void SerialJoystickHandler::onDownOut()    { Serial.println("Down out"); }
+void SerialJoystickHandler::onUpIn()       { Serial.println("Up in"); }
+void SerialJoystickHandler::onUpOut()      { Serial.println("Up out"); }
+void SerialJoystickHandler::onSwitchDown() { Serial.println("Switch down"); }
+void SerialJoystickHandler::onSwitchUp()   { Serial.println("Switch up"); }
+void SerialJoystickHandler::onChanged()    { }
 
 
-CJoystick::CJoystick(int x_pin, int y_pin, int switch_pin) 
+Joystick::Joystick(int x_pin, int y_pin, int switch_pin) 
     : m_x_pin(x_pin), 
       m_y_pin(y_pin), 
       m_switch_pin(switch_pin)
@@ -23,7 +23,7 @@ CJoystick::CJoystick(int x_pin, int y_pin, int switch_pin)
     pinMode(m_y_pin, INPUT);
     pinMode(m_switch_pin, INPUT);    
     
-    static CSerialJoystickHandler serial_joystick_handler = CSerialJoystickHandler();
+    static SerialJoystickHandler serial_joystick_handler = SerialJoystickHandler();
 
     m_joystick_handler = &serial_joystick_handler; // initialize the defaul serial joystick handler
 
@@ -31,12 +31,12 @@ CJoystick::CJoystick(int x_pin, int y_pin, int switch_pin)
     m_y = (m_down_level_in + m_up_level_in) / 2;     // mid-position    
 }
 
-void CJoystick::read() {
+void Joystick::read() {
     if (handleXAxis() || handleYAxis() || handleSwitch())
         onChanged();
 }
 
-bool CJoystick::handleXAxis() {
+bool Joystick::handleXAxis() {
     int x = analogRead(m_x_pin);
 
     bool changed = false;
@@ -78,7 +78,7 @@ bool CJoystick::handleXAxis() {
     return changed;
 }
 
-bool CJoystick::handleYAxis() {
+bool Joystick::handleYAxis() {
     int y = analogRead(m_y_pin);
 
     bool changed = false;
@@ -120,7 +120,7 @@ bool CJoystick::handleYAxis() {
     return changed;
 }
 
-bool CJoystick::handleSwitch() {
+bool Joystick::handleSwitch() {
     int s = analogRead(m_switch_pin);
 
     bool changed = false;
@@ -144,65 +144,65 @@ bool CJoystick::handleSwitch() {
     return changed;
 }
 
-void CJoystick::print() {
+void Joystick::print() {
     Serial.print("X: " + String(m_x) + " - Y: " + String(m_y) + " - S: " + String(m_s) + "\n");
 }
 
-void CJoystick::setJoyStickHandler(IJoystickHandler *joystick_handler) {
+void Joystick::setJoyStickHandler(IJoystickHandler *joystick_handler) {
     m_joystick_handler = joystick_handler;
 }
 
-void CJoystick::onLeftIn() {
+void Joystick::onLeftIn() {
     if (m_joystick_handler)
         m_joystick_handler->onLeftIn();
 }
 
-void CJoystick::onLeftOut() {
+void Joystick::onLeftOut() {
     if (m_joystick_handler)
         m_joystick_handler->onLeftOut();
 }
 
-void CJoystick::onRightIn() {
+void Joystick::onRightIn() {
     if (m_joystick_handler)
         m_joystick_handler->onRightIn();
 }
 
-void CJoystick::onRightOut() {
+void Joystick::onRightOut() {
     if (m_joystick_handler)
         m_joystick_handler->onRightOut();
 }
 
-void CJoystick::onDownIn() {
+void Joystick::onDownIn() {
     if (m_joystick_handler)
         m_joystick_handler->onDownIn();
 }
 
-void CJoystick::onDownOut() {
+void Joystick::onDownOut() {
     if (m_joystick_handler)
         m_joystick_handler->onDownOut();
 }
 
-void CJoystick::onUpIn() {
+void Joystick::onUpIn() {
     if (m_joystick_handler)
         m_joystick_handler->onUpIn();
 }
 
-void CJoystick::onUpOut() {
+void Joystick::onUpOut() {
     if (m_joystick_handler)
         m_joystick_handler->onUpOut();
 }
 
-void CJoystick::onSwitchDown() {
+void Joystick::onSwitchDown() {
     if (m_joystick_handler)
         m_joystick_handler->onSwitchDown();
 }
 
-void CJoystick::onSwitchUp() {
+void Joystick::onSwitchUp() {
     if (m_joystick_handler)
         m_joystick_handler->onSwitchUp();
 }
 
-void CJoystick::onChanged() {
+void Joystick::onChanged() {
     if (m_joystick_handler)
         m_joystick_handler->onChanged();
 }

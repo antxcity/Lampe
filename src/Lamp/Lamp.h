@@ -1,21 +1,21 @@
-#ifndef INC_CLAMP_H
-#define INC_CLAMP_H
+#ifndef __INC_ANTXCITY_LAMP_H
+#define __INC_ANTXCITY_LAMP_H
 
-#include "../ledstrip/ledstrip.h"
-#include "../joystick/joystick.h"
+#include "../LedStrip/LedStrip.h"
+#include "../Joystick/Joystick.h"
 #include "../../setup.h"
 
-class CLamp : public IJoystickHandler
+class Lamp : public IJoystickHandler
 {
     private:
-        CLedStripBase *m_ledstrips[NUM_STRIPS];
-        CJoystick m_joystick;
+        LedStripBase *m_ledstrips[NUM_STRIPS];
+        Joystick m_joystick;
         // COledDisplay m_display;
         // CWlan m_wlan;
 
     public:
-        CLamp();
-        ~CLamp();
+        Lamp();
+        ~Lamp();
 
         void loop();
 

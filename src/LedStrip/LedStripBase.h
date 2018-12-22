@@ -4,15 +4,15 @@
 #include <Arduino.h>
 #include <FastLED.h>
 
-class CLedStripBase {
+class LedStripBase {
     private:
         int _data_pin;
         int _num_leds;
         CRGB *_leds;
 
     public:
-        CLedStripBase(int num_leds, int data_pin);
-        ~CLedStripBase();
+        LedStripBase(int num_leds, int data_pin);
+        ~LedStripBase();
 
         inline int get_data_pin() { return _data_pin; };
         inline int get_num_leds() { return _num_leds; };

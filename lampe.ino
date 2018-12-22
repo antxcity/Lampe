@@ -1,10 +1,10 @@
-#include "src/lamp/lamp.h"
+#include "src/Lamp/Lamp.h"
 #include "setup.h"
 
-CLamp *lamp;
+Lamp *lamp;
 
 void setup() {
-    lamp = new CLamp();
+    lamp = new Lamp();
 
     Serial.begin(9600);
 }
