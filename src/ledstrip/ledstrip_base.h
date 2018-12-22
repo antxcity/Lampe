@@ -18,6 +18,9 @@ class CLedStripBase {
         inline int get_num_leds() { return _num_leds; };
         inline CRGB *get_leds() { return _leds; };
         inline int get_default_brightness() { return 5; };
+
+        void fill_solid(const struct CRGB &color);
+        void show();
 };
 
 #endif
