@@ -1,7 +1,7 @@
-#include "controller.h"
-#include "oled.h"
+#include "./controller.h"
+#include "../oled/oled.h"
 
-controller::controller(oled oled) {
+controller::controller(oled::oled oled) {
     configItems = config.getJoystickItems();
 };
     

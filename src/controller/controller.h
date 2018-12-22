@@ -1,4 +1,5 @@
-#include "oled.h"
+#include "../oled/oled.h"
+#include "../config/configItem.h"
 
 class controller {
     private:
@@ -13,7 +14,7 @@ class controller {
         void updateDisplay();
 
     public:
-        controller(oled oled); // constructor
+        controller(oled::oled oled); // constructor
 
         void onJoystickLeft();
         void onJoystickRight();
