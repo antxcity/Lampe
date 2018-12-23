@@ -8,10 +8,10 @@
 
 class Config {
 private:
-    ConfigItem joystick_config_items[JOYSTICK_ITEM_COUNT] = {
-        ConfigItemInt("Helligikeit", 128),
-        ConfigItemBool("Ja/Nein", true),
-        ConfigItemInt("Farbton", 128)
+    ConfigItem *joystick_config_items[JOYSTICK_ITEM_COUNT] = {
+        new ConfigItemInt("Helligikeit", 128),
+        new ConfigItemBool("Ja/Nein", true),
+        new ConfigItemInt("Farbton", 128)
     };
 
 public:

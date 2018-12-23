@@ -8,6 +8,11 @@
 #define JOY_Y_PIN 26
 #define JOY_S_PIN 32
 
+// Oled
+#define OLED_INTERFACE 0x3c
+#define OLED_SCL_PIN 21
+#define OLED_SDA_PIN 22
+
 
 // LED Strip
 #define NUM_STRIPS  2

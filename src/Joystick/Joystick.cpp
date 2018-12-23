@@ -87,7 +87,7 @@ bool Joystick::handleYAxis() {
     if (y > m_up_level_in) {
         if (m_y <= m_up_level_out) {
             changed = true;
-            onUpIn();
+            onDownIn();
         }
     }
 
@@ -95,7 +95,7 @@ bool Joystick::handleYAxis() {
     if (y <= m_up_level_out) {
         if (m_y > m_up_level_in) {
             changed = true;
-            onUpOut();
+            onDownOut();
         }
     }
 
@@ -103,7 +103,7 @@ bool Joystick::handleYAxis() {
     if (y < m_down_level_in) {
         if (m_y >= m_down_level_out) {
             changed = true;
-            onDownIn();
+            onUpIn();
         }
     }
 
@@ -111,7 +111,7 @@ bool Joystick::handleYAxis() {
     if (y > m_down_level_out) {
         if (m_y <= m_down_level_in) {
             changed = true;
-            onDownOut();
+            onUpOut();
         }
     }
 

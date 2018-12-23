@@ -17,6 +17,9 @@ private:
 
     void updateDisplay();
 
+protected:
+    void _show();
+
 public:
     Controller(Oled *oled, Config *config);
 

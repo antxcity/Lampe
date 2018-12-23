@@ -3,6 +3,7 @@
 
 #include "../LedStrip/LedStrip.h"
 #include "../Joystick/Joystick.h"
+#include "Controller/Controller.h"
 #include "../../setup.h"
 
 class Lamp : public IJoystickHandler
@@ -10,6 +11,11 @@ class Lamp : public IJoystickHandler
     private:
         LedStripBase *m_ledstrips[NUM_STRIPS];
         Joystick m_joystick;
+
+        Oled *m_oled;
+        Config *m_config;
+        Controller *m_controller;
+
         // COledDisplay m_display;
         // CWlan m_wlan;
 

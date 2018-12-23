@@ -19,114 +19,106 @@ void Controller::onJoystickLeft() {
     if ( !ci ) 
         return;
 
-/*
-    switch (ci->getValueType()) {
-        case "Bool":
-            ConfigItemBool *ci_bool = <dynamic_cast ConfigItemBool *>(ci);
+    if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
+        ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
 
-            ci_bool->m_value = !ci_bool->m_value);
-            m_oled.showBool(ci_bool->m_title, ci_bool->value);
-            break;
-        case "Int":
-            ConfigItemInt *ci_int = <dynamic_cast ConfigItemInt *>(ci);
-            if (ci_int->m_value > ci_int->m_min_value)
-                ci_int->m_value--;
-            m_oled.showBar(ci.m_title, ci_int->m_value);
-            break;
-        default:
-            break;
+        ci_bool->m_value = false;
     }
-    */
+    else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
+        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
+        if (ci_int->m_value > ci_int->m_min_value)
+            ci_int->m_value--;
+    }
+    _show();
 };
-/*
+
 void Controller::onJoystickRight() {
-    if (!displayActive) {
+    if ( !m_displayActive ) {
         activateDisplay();
         return;
     }
+    
+    ConfigItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
+    if ( !ci ) 
+        return;
 
-    configItem ci = configItems[currentConfigItem]; // just for the shorter name
-    if (ci.type = config::configItemTypes.BOOL) {
-        ci.value = !ci.value);
-        oled.showBool(ci.title, ci.value);
-        // no write back to config yet
+    if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
+        ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
+        ci_bool->m_value = true;
     }
-    else if (ci.type = config::configItemTypes.INT) {
-        if (ci.value < ci.maxValue) {
-            ci.value++;
-            oled.showBar(ci.title, ci.value);
-            // no write back to config yet
-        }
+    else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
+        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
+        if (ci_int->m_value < ci_int->m_max_value)
+            ci_int->m_value++;
+    }
+    _show();
+};
+
+void Controller::_show() {
+    ConfigItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
+    if ( !ci ) 
+        return;
+
+    if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
+        ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
+        m_oled->showBool(ci_bool->m_title, ci_bool->m_value);
+    }
+    else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
+        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
+        m_oled->showBar(ci_int->m_title, ci_int->m_value);
+    }
+    else {
+        m_oled->showMessage("unknown item");
     }
 };
 
 void Controller::onJoystickUp() {
-    if (!displayActive) {
+    if (!m_displayActive) {
         activateDisplay();
         return;
     }
 
-    if (currentConfigItem == 0)
+    if (m_currentConfigItem == 0)
         return;
 
-    currentConfigItem--;
-    configItem ci = configItems[currentConfigItem]; // just for the shorter name
-    if (ci.type = config::configItemTypes.BOOL) {
-        oled.showBool(ci.title, ci.value);
-    }
-    else if (ci.type = config::configItemTypes.INT) {
-        oled.showBar(ci.title, ci.value);
-    }
+    m_currentConfigItem--;
+
+    _show();
 };
 
 void Controller::onJoystickDown() {
-    if (!displayActive) {
+    if (!m_displayActive) {
         activateDisplay();
         return;
     }
 
-    if (currentConfigItem == configItems.count - 1)
+    if (m_currentConfigItem == m_config->getJoystickItemCount() - 1)
         return;
 
-    currentConfigItem++;
-    configItem ci = configItems[currentConfigItem]; // just for the shorter name
-    if (ci.type = config::configItemTypes.BOOL) {
-        oled.showBool(ci.title, ci.value);
-    }
-    else if (ci.type = config::configItemTypes.INT) {
-        oled.showBar(ci.title, ci.value);
-    }
-    else {
-        oled.showMessage("unknown item");
-    }
+    m_currentConfigItem++;
+
+    _show();
 };
 
 void Controller::onJoystickButton() {
-    if (!displayActive) {
+    if (!m_displayActive) {
         activateDisplay();
         return;
     }
 
-    oled.showError("button pressed");
-    delay(2000);
+    m_oled->showMessage("button pressed");
+    delay(100);
     activateDisplay();
 };
 
 void Controller::activateDisplay() {
-    displayActive = true;
-    oled.activate();
+    m_displayActive = true;
+    m_oled->activate();
 
-    configItem ci = configItems[currentConfigItem]; // just for the shorter name
-    if (ci.type = config::configItemTypes.BOOL) {
-        oled.showBool(ci.title, ci.value);
-    }
-    else if (ci.type = config::configItemTypes.INT) {
-        oled.showBar(ci.title, ci.value);
-    }
+    _show();
 }
 
 void Controller::deactivateDisplay() {
-    displayActive = false;
-    oled.deactivate();
+    m_displayActive = false;
+    m_oled->deactivate();
 }
-*/

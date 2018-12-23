@@ -1,5 +1,5 @@
-#include "src/Lamp/Lamp.h"
-#include "setup.h"
+#include "Lamp/Lamp.h"
+#include "../setup.h"
 
 Lamp *lamp;
 
@@ -10,7 +10,7 @@ void setup() {
 }
 
 void loop() {
-    lamp->loop();
 
+    lamp->loop();
     delay(100);
 }
