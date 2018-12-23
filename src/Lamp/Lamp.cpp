@@ -25,14 +25,51 @@ void Lamp::loop() {
     m_joystick.read();
 }
 
-void Lamp::onLeftIn()     { m_ledstrips[0]->fill_solid(CRGB::Green); m_controller->onJoystickLeft(); }
-void Lamp::onLeftOut()    { m_ledstrips[0]->fill_solid(CRGB::Black); }
-void Lamp::onRightIn()    { m_ledstrips[0]->fill_solid(CRGB::Red); m_controller->onJoystickRight(); }
-void Lamp::onRightOut()   { m_ledstrips[0]->fill_solid(CRGB::Black); }
-void Lamp::onDownIn()     { m_ledstrips[1]->fill_solid(CRGB::Blue); m_controller->onJoystickDown(); }
-void Lamp::onDownOut()    { m_ledstrips[1]->fill_solid(CRGB::Black); }
-void Lamp::onUpIn()       { m_ledstrips[1]->fill_solid(CRGB::White); m_controller->onJoystickUp(); }
-void Lamp::onUpOut()      { m_ledstrips[1]->fill_solid(CRGB::Black); }
-void Lamp::onSwitchDown() { m_ledstrips[0]->fill_solid(CRGB::Orange); m_ledstrips[1]->fill_solid(CRGB::Orange); }
-void Lamp::onSwitchUp()   { m_ledstrips[0]->fill_solid(CRGB::Black); m_ledstrips[1]->fill_solid(CRGB::Black); m_controller->onJoystickButton(); }
-void Lamp::onChanged()    { m_ledstrips[0]->show(); m_ledstrips[1]->show(); }
+void Lamp::onLeftIn() { 
+    m_ledstrips[0]->fill_solid(CRGB::Green); 
+    m_controller->onJoystickLeft(); 
+}
+
+void Lamp::onLeftOut() { 
+    m_ledstrips[0]->fill_solid(CRGB::Black); 
+}
+
+void Lamp::onRightIn() { 
+    m_ledstrips[0]->fill_solid(CRGB::Red); 
+    m_controller->onJoystickRight(); 
+}
+
+void Lamp::onRightOut() { 
+    m_ledstrips[0]->fill_solid(CRGB::Black); 
+}
+
+void Lamp::onDownIn() { 
+    m_ledstrips[1]->fill_solid(CRGB::Blue); 
+    m_controller->onJoystickDown(); 
+}
+
+void Lamp::onDownOut() { 
+    m_ledstrips[1]->fill_solid(CRGB::Black); 
+}
+
+void Lamp::onUpIn() { 
+    m_ledstrips[1]->fill_solid(CRGB::White); 
+    m_controller->onJoystickUp(); 
+}
+void Lamp::onUpOut() { 
+    m_ledstrips[1]->fill_solid(CRGB::Black);
+}
+
+void Lamp::onSwitchDown() { 
+    m_ledstrips[0]->fill_solid(CRGB::Orange); 
+    m_ledstrips[1]->fill_solid(CRGB::Orange); 
+}
+
+void Lamp::onSwitchUp() { 
+    m_ledstrips[0]->fill_solid(CRGB::Black); m_ledstrips[1]->fill_solid(CRGB::Black); 
+    m_controller->onJoystickButton(); 
+}
+
+void Lamp::onChanged() { 
+    m_ledstrips[0]->show(); m_ledstrips[1]->show(); 
+}
