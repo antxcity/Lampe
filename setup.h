@@ -7,6 +7,8 @@
 #define JOY_X_PIN 27
 #define JOY_Y_PIN 26
 #define JOY_S_PIN 32
+#define JOYSTICK_DELAY 1000
+#define JOYSTICK_RATE  10
 
 // Oled
 #define OLED_INTERFACE 0x3c
@@ -15,15 +17,16 @@
 
 
 // LED Strip
-#define NUM_STRIPS  2
+#define NUM_STRIPS  3
 #define NUM_LEDS_PER_STRIP 29
 #define DATAPIN_LEDSTRIP_1 5
+#define DATAPIN_LEDSTRIP_3 17
 #define DATAPIN_LEDSTRIP_2 18
-#define BRIGHTNESS  96
+#define BRIGHTNESS  255
 
 // Config
 #define JOYSTICK_ITEM_COUNT 4
-#define JOYSTICK_DELAY 1000
-#define JOYSTICK_RATE  10
+#define HELLIGKEIT_CONFIG_ITEM_INDEX 0
+#define JANEIN_ITEM 1
 
 #endif

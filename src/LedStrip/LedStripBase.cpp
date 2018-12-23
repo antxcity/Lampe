@@ -15,5 +15,20 @@ void LedStripBase::fill_solid(const struct CRGB &color) {
 }
 
 void LedStripBase::show() {
-    FastLED.show();
+    if (_changed) {
+        FastLED.show();
+        _changed = false;
+    }
+}
+
+void LedStripBase::setSingleLed(int index, const struct CRGB &color) {
+    if (index < 0 || index >= _num_leds)
+        return;
+
+    for (int i = 0; i < _num_leds; i++) {
+        _leds[i] = CRGB::Black;
+    }
+
+    _leds[index] = color;
+    _changed = true;
 }

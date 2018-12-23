@@ -6,6 +6,7 @@ Lamp::Lamp()
 
     m_ledstrips[0] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_1>;
     m_ledstrips[1] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_2>;
+    m_ledstrips[2] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_3>;
 
     m_oled = new Oled(OLED_INTERFACE, OLED_SCL_PIN, OLED_SDA_PIN, GEOMETRY_128_32);
     m_oled->showMessage("Welcome!");
@@ -50,7 +51,7 @@ void Lamp::onJoystickLeft() {
     if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
         ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
 
-        ci_bool->m_value = false;
+        ci_bool->setValue(false);
     }
     else if ( 
             ci->getValueType().equalsIgnoreCase("Int") 
@@ -75,7 +76,7 @@ void Lamp::onJoystickRight() {
 
     if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
         ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
-        ci_bool->m_value = true;
+        ci_bool->setValue(true);
     }
     else if ( 
                 ci->getValueType().equalsIgnoreCase("Int") 
@@ -95,7 +96,7 @@ void Lamp::_show() {
 
     if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
         ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
-        m_oled->showBool(ci_bool->m_title, ci_bool->m_value);
+        m_oled->showBool(ci_bool->m_title, ci_bool->getValue());
     }
     else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
         ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
@@ -107,6 +108,16 @@ void Lamp::_show() {
     }
     else {
         m_oled->showMessage("unknown item");
+    }
+
+    if (m_config->isChanged()) {
+        if (ci = m_config->getJoystickConfigItem(HELLIGKEIT_CONFIG_ITEM_INDEX)) {
+            ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
+            int hell_index = map(ci_int->m_value, ci_int->m_min_value, ci_int->m_max_value, 0, m_ledstrips[0]->get_num_leds() - 1);
+            m_ledstrips[0]->setSingleLed(hell_index, CRGB::Blue);
+            m_ledstrips[0]->show();
+        }
+        m_config->setUnchanged();
     }
 };
 

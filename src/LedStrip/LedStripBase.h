@@ -8,6 +8,7 @@ class LedStripBase {
     private:
         int _data_pin;
         int _num_leds;
+        bool _changed = true;
         CRGB *_leds;
 
     public:
@@ -17,9 +18,10 @@ class LedStripBase {
         inline int get_data_pin() { return _data_pin; };
         inline int get_num_leds() { return _num_leds; };
         inline CRGB *get_leds() { return _leds; };
-        inline int get_default_brightness() { return 5; };
+        inline int get_default_brightness() { return 2; };
 
         void fill_solid(const struct CRGB &color);
+        void setSingleLed(int index, const struct CRGB &color);
         void show();
 };
 

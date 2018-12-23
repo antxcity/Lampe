@@ -4,12 +4,16 @@
 #include "ConfigItem.h"
 
 class ConfigItemBool : public ConfigItem {
-public:
+private:
     bool m_value;
 
-    ConfigItemBool(String title, bool value);
+public:
+
+    ConfigItemBool(Config *config, String title, bool value);
 
     virtual String getValueType() { return "Bool"; };
+    void setValue(bool value);
+    bool getValue() { return m_value; };
 };
 
 #endif
