@@ -22,6 +22,8 @@
 #define BRIGHTNESS  96
 
 // Config
-#define JOYSTICK_ITEM_COUNT 3
+#define JOYSTICK_ITEM_COUNT 4
+#define JOYSTICK_DELAY 1000
+#define JOYSTICK_RATE  10
 
 #endif

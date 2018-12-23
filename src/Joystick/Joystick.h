@@ -3,33 +3,75 @@
 
 class IJoystickHandler 
 {
-    public:
-        virtual ~IJoystickHandler() {};
+public:
+    virtual ~IJoystickHandler() {};
+    virtual void onLeftIn() = 0;
+    virtual void onLeft() = 0;
+    virtual void onLeftOut() = 0;
 
-        virtual void onLeftIn() = 0;
-        virtual void onLeftOut() = 0;
-        virtual void onRightIn() = 0;
-        virtual void onRightOut() = 0;
-        virtual void onDownIn() = 0;
-        virtual void onDownOut() = 0;
-        virtual void onUpIn() = 0;
-        virtual void onUpOut() = 0;
-        virtual void onSwitchDown() = 0;
-        virtual void onSwitchUp() = 0;
-        virtual void onChanged() = 0;
+    virtual void onRightIn() = 0;
+    virtual void onRight() = 0;
+    virtual void onRightOut() = 0;
+
+    virtual void onDownIn() = 0;
+    virtual void onDown() = 0;
+    virtual void onDownOut() = 0;
+
+    virtual void onUpIn() = 0;
+    virtual void onUp() = 0;
+    virtual void onUpOut() = 0;
+
+    virtual void onSwitchDown() = 0;
+    virtual void onSwitchUp() = 0;
+
+    virtual void onChanged() = 0;
 };
 
-class SerialJoystickHandler : public IJoystickHandler {
+class JoystickHandlerBase : public IJoystickHandler
+{
+public:
+    virtual void onLeftIn() {};
+    virtual void onLeft() {};
+    virtual void onLeftOut() {};
+
+    virtual void onRightIn() {};
+    virtual void onRight() {};
+    virtual void onRightOut() {};
+
+    virtual void onDownIn() {};
+    virtual void onDown() {};
+    virtual void onDownOut() {};
+
+    virtual void onUpIn() {};
+    virtual void onUp() {};
+    virtual void onUpOut() {};
+
+    virtual void onSwitchDown() {};
+    virtual void onSwitchUp() {};
+
+    virtual void onChanged() {};
+};
+
+class SerialJoystickHandler : public JoystickHandlerBase {
     virtual void onLeftIn();
+    virtual void onLeft();
     virtual void onLeftOut();
+
     virtual void onRightIn();
+    virtual void onRight();
     virtual void onRightOut();
+
     virtual void onDownIn();
+    virtual void onDown();
     virtual void onDownOut();
+
     virtual void onUpIn();
+    virtual void onUp();
     virtual void onUpOut();
+
     virtual void onSwitchDown();
     virtual void onSwitchUp();
+
     virtual void onChanged();
 };
 
@@ -70,15 +112,24 @@ class Joystick {
         void setJoyStickHandler(IJoystickHandler *joystick_handler);
 
         void onLeftIn();
+        void onLeft();
         void onLeftOut();
+
         void onRightIn();
+        void onRight();
         void onRightOut();
+
         void onDownIn();
+        void onDown();
         void onDownOut();
+
         void onUpIn();
+        void onUp();
         void onUpOut();
+
         void onSwitchDown();
         void onSwitchUp();
+
         void onChanged();
 };
 

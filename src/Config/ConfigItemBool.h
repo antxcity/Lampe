@@ -9,7 +9,7 @@ public:
 
     ConfigItemBool(String title, bool value);
 
-    virtual String getValueType();
+    virtual String getValueType() { return "Bool"; };
 };
 
 #endif

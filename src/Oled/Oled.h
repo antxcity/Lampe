@@ -10,7 +10,8 @@ class Oled {
     public:
         Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution);
 
-        void showBar(String title, int value);
+        void showBar(String title, int value, int min_value, int max_value);
+        void showVolumeBar(String title, int value, int min_value, int max_value);
         void showBool(String title, bool value);
         void showMessage(String message);
 

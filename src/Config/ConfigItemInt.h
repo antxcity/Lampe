@@ -9,8 +9,14 @@ public:
     int m_min_value = 0;
     int m_max_value = 255;
 
-    ConfigItemInt(String title, int value);
-    virtual String getValueType();
+    ConfigItemInt(String title, int value, int min_value = 0, int max_value = 255);
+    virtual String getValueType() { return "Int"; };
+};
+
+class ConfigItemVolume : public ConfigItemInt {
+public:
+    ConfigItemVolume(String title, int value, int min_value = 0, int max_value = 255);
+    virtual String getValueType() { return "Volume"; };
 };
 
 #endif

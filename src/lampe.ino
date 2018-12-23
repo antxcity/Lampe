@@ -12,5 +12,5 @@ void setup() {
 void loop() {
 
     lamp->loop();
-    delay(100);
+    delay(5);
 }

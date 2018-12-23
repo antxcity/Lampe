@@ -2,12 +2,16 @@
 #include "Joystick.h"
 
 void SerialJoystickHandler::onLeftIn()     { Serial.println("Left in"); }
+void SerialJoystickHandler::onLeft()       { Serial.println("Left"); }
 void SerialJoystickHandler::onLeftOut()    { Serial.println("Left out"); }
 void SerialJoystickHandler::onRightIn()    { Serial.println("Right in"); }
+void SerialJoystickHandler::onRight()      { Serial.println("Right"); }
 void SerialJoystickHandler::onRightOut()   { Serial.println("Right out"); }
 void SerialJoystickHandler::onDownIn()     { Serial.println("Down in"); }
+void SerialJoystickHandler::onDown()       { Serial.println("Down"); }
 void SerialJoystickHandler::onDownOut()    { Serial.println("Down out"); }
 void SerialJoystickHandler::onUpIn()       { Serial.println("Up in"); }
+void SerialJoystickHandler::onUp()         { Serial.println("Up"); }
 void SerialJoystickHandler::onUpOut()      { Serial.println("Up out"); }
 void SerialJoystickHandler::onSwitchDown() { Serial.println("Switch down"); }
 void SerialJoystickHandler::onSwitchUp()   { Serial.println("Switch up"); }
@@ -47,6 +51,7 @@ bool Joystick::handleXAxis() {
             changed = true;
             onRightIn();
         }
+        onRight();
     }
 
     // do we leave the "right" area?
@@ -63,6 +68,7 @@ bool Joystick::handleXAxis() {
             changed = true;
             onLeftIn();
         }
+        onLeft();
     }
 
     // do we leave the "right" area?
@@ -89,6 +95,7 @@ bool Joystick::handleYAxis() {
             changed = true;
             onDownIn();
         }
+        onDown();
     }
 
     // do we leave the "upper" area?
@@ -105,6 +112,7 @@ bool Joystick::handleYAxis() {
             changed = true;
             onUpIn();
         }
+        onUp();
     }
 
     // do we leave the "down" area?
@@ -157,6 +165,11 @@ void Joystick::onLeftIn() {
         m_joystick_handler->onLeftIn();
 }
 
+void Joystick::onLeft() {
+    if (m_joystick_handler)
+        m_joystick_handler->onLeft();
+}
+
 void Joystick::onLeftOut() {
     if (m_joystick_handler)
         m_joystick_handler->onLeftOut();
@@ -165,6 +178,11 @@ void Joystick::onLeftOut() {
 void Joystick::onRightIn() {
     if (m_joystick_handler)
         m_joystick_handler->onRightIn();
+}
+
+void Joystick::onRight() {
+    if (m_joystick_handler)
+        m_joystick_handler->onRight();
 }
 
 void Joystick::onRightOut() {
@@ -177,6 +195,11 @@ void Joystick::onDownIn() {
         m_joystick_handler->onDownIn();
 }
 
+void Joystick::onDown() {
+    if (m_joystick_handler)
+        m_joystick_handler->onDown();
+}
+
 void Joystick::onDownOut() {
     if (m_joystick_handler)
         m_joystick_handler->onDownOut();
@@ -185,6 +208,11 @@ void Joystick::onDownOut() {
 void Joystick::onUpIn() {
     if (m_joystick_handler)
         m_joystick_handler->onUpIn();
+}
+
+void Joystick::onUp() {
+    if (m_joystick_handler)
+        m_joystick_handler->onUp();
 }
 
 void Joystick::onUpOut() {

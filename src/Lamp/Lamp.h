@@ -3,39 +3,47 @@
 
 #include "../LedStrip/LedStrip.h"
 #include "../Joystick/Joystick.h"
-#include "Controller/Controller.h"
+#include "LampJoystickHandler.h"
 #include "../../setup.h"
+#include "../Oled/Oled.h"
+#include "../Config/Config.h"
 
-class Lamp : public IJoystickHandler
+class LampJoystickHandler;
+
+class Lamp
 {
-    private:
-        LedStripBase *m_ledstrips[NUM_STRIPS];
-        Joystick m_joystick;
+private:
+    LedStripBase *m_ledstrips[NUM_STRIPS];
+    Joystick *m_joystick;
+    LampJoystickHandler *m_joystick_handler;
 
-        Oled *m_oled;
-        Config *m_config;
-        Controller *m_controller;
+    int m_currentConfigItem = 0;
+    bool m_displayActive = false;
 
-        // COledDisplay m_display;
-        // CWlan m_wlan;
+    Oled *m_oled;
+    Config *m_config;
 
-    public:
-        Lamp();
-        ~Lamp();
+protected:
+    void _show();
 
-        void loop();
+public:
+    Lamp();
+    ~Lamp();
 
-        virtual void onLeftIn();
-        virtual void onLeftOut();
-        virtual void onRightIn();
-        virtual void onRightOut();
-        virtual void onDownIn();
-        virtual void onDownOut();
-        virtual void onUpIn();
-        virtual void onUpOut();
-        virtual void onSwitchDown();
-        virtual void onSwitchUp();
-        virtual void onChanged();
+    Joystick *getJoystick();
+
+    void loop();
+
+    void activateDisplay();
+    void deactivateDisplay();
+
+    void updateDisplay();
+
+    void onJoystickLeft();
+    void onJoystickRight();
+    void onJoystickUp();
+    void onJoystickDown();
+    void onJoystickButton();        
 };
 
 #endif
