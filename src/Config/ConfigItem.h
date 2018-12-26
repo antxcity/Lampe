@@ -16,6 +16,7 @@ public:
     ConfigItem(Config *config, String title);
     virtual String getValueType();
     Config *getConfig();
+    virtual String getDisplayString() {};
 };
 
 #endif

@@ -17,6 +17,8 @@ public:
     void setValue(int value);
     int getValue() { return m_value; };
 
+    virtual String getDisplayString() { String(m_value); };
+
     void setMinValue(int min_value);
     int getMinValue() { return m_min_value; };
 

@@ -9,10 +9,17 @@
 class Config {
 private:
     ConfigJoystickItem *joystick_config_items[JOYSTICK_ITEM_COUNT] = {
-        new ConfigItemInt(this, "Helligkeit", 128),
-        new ConfigItemBool(this, "Ja/Nein", true),
-        new ConfigItemInt(this, "Farbton", 128),
-        new ConfigItemVolume(this, "Lautstärke", 2, 0, 10)
+        new ConfigItemPresets(this),
+        new ConfigItemValue(this),
+        new ConfigItemSaturation(this),
+        new ConfigItemHue(this),
+        new ConfigItemStrips(this),
+        new ConfigItemLines(this),
+        new ConfigItemPosition(this),
+        new ConfigItemColorRotation(this),
+        new ConfigItemSpectrum(this),
+        new ConfigItemEffects(this),
+        new ConfigItemInfo(this),
     };
     bool m_changed = false;
 
@@ -25,5 +32,6 @@ public:
     void setUnchanged() { m_changed = false; };
     bool isChanged() { return m_changed; };
 };
+
 
 #endif

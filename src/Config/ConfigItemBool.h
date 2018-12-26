@@ -14,6 +14,8 @@ public:
     void setValue(bool value);
     bool getValue() { return m_value; };
 
+    virtual String getDisplayString() { return m_value ? "Ja" : "Nein"; };
+
     virtual void incrementValue();
     virtual void decrementValue();
 };
