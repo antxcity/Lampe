@@ -3,7 +3,7 @@
 #include "Config.h"
 
 ConfigItemBool::ConfigItemBool(Config *config, String title, bool value)
-: ConfigItem(config, title), m_value(value) {
+: ConfigJoystickItem(config, title), m_value(value) {
 
 }
 
@@ -12,4 +12,12 @@ void ConfigItemBool::setValue(bool value) {
         m_value = value; 
         getConfig()->setChanged();
     }
+}
+
+void ConfigItemBool::incrementValue() {
+    setValue(true);
+}
+
+void ConfigItemBool::decrementValue() {
+    setValue(false);
 }

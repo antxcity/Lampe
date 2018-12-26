@@ -2,13 +2,13 @@
 #define __INC_ANTXCITY_CONFIG_H
 
 #include "../setup.h"
-#include "ConfigItem.h"
+#include "ConfigJoystickItem.h"
 #include "ConfigItemBool.h"
 #include "ConfigItemInt.h"
 
 class Config {
 private:
-    ConfigItem *joystick_config_items[JOYSTICK_ITEM_COUNT] = {
+    ConfigJoystickItem *joystick_config_items[JOYSTICK_ITEM_COUNT] = {
         new ConfigItemInt(this, "Helligkeit", 128),
         new ConfigItemBool(this, "Ja/Nein", true),
         new ConfigItemInt(this, "Farbton", 128),
@@ -18,8 +18,8 @@ private:
 
 public:
     int getJoystickItemCount();
-    ConfigItem *getJoystickConfigItem(int index);
-    ConfigItem *getJoystickItems();
+    ConfigJoystickItem *getJoystickConfigItem(int index);
+    ConfigJoystickItem *getJoystickItems();
 
     void setChanged() { m_changed = true; };
     void setUnchanged() { m_changed = false; };

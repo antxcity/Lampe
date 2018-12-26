@@ -12,8 +12,8 @@
 
 // Oled
 #define OLED_INTERFACE 0x3c
-#define OLED_SCL_PIN 21
-#define OLED_SDA_PIN 22
+#define OLED_SCL_PIN 22
+#define OLED_SDA_PIN 21
 
 
 // LED Strip

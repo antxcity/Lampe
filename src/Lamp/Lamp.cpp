@@ -4,27 +4,18 @@ Lamp::Lamp()
 {
     m_config = new Config;
 
-    m_ledstrips[0] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_1>;
-    m_ledstrips[1] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_2>;
-    m_ledstrips[2] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_3>;
-
     m_oled = new Oled(OLED_INTERFACE, OLED_SCL_PIN, OLED_SDA_PIN, GEOMETRY_128_32);
     m_oled->showMessage("Welcome!");
 
     m_joystick = new Joystick(JOY_X_PIN, JOY_Y_PIN, JOY_S_PIN);
-    m_joystick_handler = new LampJoystickHandler(this);
+    m_joystickHandler = new LampJoystickHandler(this);
 }
 
 Lamp::~Lamp() {
-    delete m_joystick_handler;
+    delete m_joystickHandler;
     delete m_joystick;
     
     delete m_oled;
-
-    for (int i = 0; i < NUM_STRIPS; i++) {
-        delete m_ledstrips[i];
-        m_ledstrips[i] = NULL;
-    }
 
     delete m_config;
 }
@@ -44,23 +35,10 @@ void Lamp::onJoystickLeft() {
         return;
     }
 
-    ConfigItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
-    if ( !ci ) 
-        return;
+    Serial.println("left");
 
-    if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
-        ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
+    m_config->getJoystickConfigItem(m_currentConfigItem)->decrementValue();
 
-        ci_bool->setValue(false);
-    }
-    else if ( 
-            ci->getValueType().equalsIgnoreCase("Int") 
-         || ci->getValueType().equalsIgnoreCase("Volume")
-    ) {
-        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
-        if (ci_int->m_value > ci_int->m_min_value)
-            ci_int->m_value--;
-    }
     _show();
 };
 
@@ -69,28 +47,16 @@ void Lamp::onJoystickRight() {
         activateDisplay();
         return;
     }
-    
-    ConfigItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
-    if ( !ci ) 
-        return;
 
-    if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
-        ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
-        ci_bool->setValue(true);
-    }
-    else if ( 
-                ci->getValueType().equalsIgnoreCase("Int") 
-            || ci->getValueType().equalsIgnoreCase("Volume")
-        ) {
-        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
-        if (ci_int->m_value < ci_int->m_max_value)
-            ci_int->m_value++;
-    }
+    Serial.println("right");
+    
+    m_config->getJoystickConfigItem(m_currentConfigItem)->incrementValue();
+
     _show();
 };
 
 void Lamp::_show() {
-    ConfigItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
+    ConfigJoystickItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
     if ( !ci ) 
         return;
 
@@ -100,23 +66,19 @@ void Lamp::_show() {
     }
     else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
         ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
-        m_oled->showBar(ci_int->m_title, ci_int->m_value, ci_int->m_min_value, ci_int->m_max_value);
+        Serial.println("adfasfd");
+        m_oled->showBar(ci_int->m_title, ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue());
     }
     else if ( ci->getValueType().equalsIgnoreCase("Volume") ) {
         ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
-        m_oled->showVolumeBar(ci_int->m_title, ci_int->m_value, ci_int->m_min_value, ci_int->m_max_value);
+        m_oled->showVolumeBar(ci_int->m_title, ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue());
     }
     else {
         m_oled->showMessage("unknown item");
     }
 
     if (m_config->isChanged()) {
-        if (ci = m_config->getJoystickConfigItem(HELLIGKEIT_CONFIG_ITEM_INDEX)) {
-            ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
-            int hell_index = map(ci_int->m_value, ci_int->m_min_value, ci_int->m_max_value, 0, m_ledstrips[0]->get_num_leds() - 1);
-            m_ledstrips[0]->setSingleLed(hell_index, CRGB::Blue);
-            m_ledstrips[0]->show();
-        }
+        m_ledLight.applyConfig(m_config);
         m_config->setUnchanged();
     }
 };
@@ -126,6 +88,9 @@ void Lamp::onJoystickUp() {
         activateDisplay();
         return;
     }
+
+    Serial.println("up");
+
 
     if (m_currentConfigItem == 0)
         return;
@@ -140,6 +105,7 @@ void Lamp::onJoystickDown() {
         activateDisplay();
         return;
     }
+    Serial.println("down");
 
     if (m_currentConfigItem == m_config->getJoystickItemCount() - 1)
         return;

@@ -1,7 +1,7 @@
 #ifndef __INC_ANTXCITY_LAMP_H
 #define __INC_ANTXCITY_LAMP_H
 
-#include "../LedStrip/LedStrip.h"
+#include "../LedLight/LedLight.h"
 #include "../Joystick/Joystick.h"
 #include "LampJoystickHandler.h"
 #include "../../setup.h"
@@ -13,9 +13,9 @@ class LampJoystickHandler;
 class Lamp
 {
 private:
-    LedStripBase *m_ledstrips[NUM_STRIPS];
+    LedLight m_ledLight;
     Joystick *m_joystick;
-    LampJoystickHandler *m_joystick_handler;
+    LampJoystickHandler *m_joystickHandler;
 
     int m_currentConfigItem = 0;
     bool m_displayActive = false;

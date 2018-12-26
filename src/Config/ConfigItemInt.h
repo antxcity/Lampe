@@ -1,16 +1,33 @@
 #ifndef __INC_ANTXCITY_CONFIGITEMINT_H
 #define __INC_ANTXCITY_CONFIGITEMINT_H
 
-#include "ConfigItem.h"
+#include "ConfigJoystickItem.h"
 
-class ConfigItemInt : public ConfigItem {
-public:
+class ConfigItemInt : public ConfigJoystickItem {
+private:
     int m_value;
     int m_min_value = 0;
     int m_max_value = 255;
+    int m_steps = 1;
 
-    ConfigItemInt(Config *config, String title, int value, int min_value = 0, int max_value = 255);
+public:
+    ConfigItemInt(Config *config, String title, int value, int min_value = 0, int max_value = 255, int steps = 1);
+    
     virtual String getValueType() { return "Int"; };
+    void setValue(int value);
+    int getValue() { return m_value; };
+
+    void setMinValue(int min_value);
+    int getMinValue() { return m_min_value; };
+
+    void setMaxValue(int max_value);
+    int getMaxValue() { return m_max_value; };
+
+    void setStepValue(int steps);
+    int getStepValue() { return m_steps; };
+
+    virtual void incrementValue();
+    virtual void decrementValue();
 };
 
 class ConfigItemVolume : public ConfigItemInt {
