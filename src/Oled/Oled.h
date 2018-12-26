@@ -11,10 +11,13 @@ class Oled {
         Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution);
 
         void showBar(String title, int value, int min_value, int max_value);
+        void showSlider(String title, int value, int min_value, int max_value);
         void showVolumeBar(String title, int value, int min_value, int max_value);
         void showBool(String title, bool value);
         void showMessage(String message);
         void showString(String title, String value);
+        void showTimerBar(int value, int maxValue);
+        void showUpDownIndicator(bool up, bool down);
 
         void activate();
         void deactivate();
