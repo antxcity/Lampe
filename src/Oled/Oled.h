@@ -14,6 +14,7 @@ class Oled {
         void showVolumeBar(String title, int value, int min_value, int max_value);
         void showBool(String title, bool value);
         void showMessage(String message);
+        void showString(String title, String value);
 
         void activate();
         void deactivate();

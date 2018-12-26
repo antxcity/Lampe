@@ -26,9 +26,11 @@ ConfigItemVolume::ConfigItemVolume(Config *config, String title, int value, int 
 }
 
 void ConfigItemInt::setValue(int value) {
+    // Serial.println("ConfigItemInt::setValue(int " + getTitle() + " : " + String(value) + ")");
+
     if (m_value != value) {
         m_value = value; 
-        getConfig()->setChanged();
+        getConfig()->setChanged(this);
     }    
 }
 

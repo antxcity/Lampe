@@ -7,7 +7,7 @@
 #define JOY_X_PIN 27
 #define JOY_Y_PIN 26
 #define JOY_S_PIN 32
-#define JOYSTICK_DELAY 1000
+#define JOYSTICK_DELAY 500
 #define JOYSTICK_RATE  10
 
 // Oled
@@ -20,13 +20,22 @@
 #define NUM_STRIPS  3
 #define NUM_LEDS_PER_STRIP 29
 #define DATAPIN_LEDSTRIP_1 5
-#define DATAPIN_LEDSTRIP_3 17
-#define DATAPIN_LEDSTRIP_2 18
+#define DATAPIN_LEDSTRIP_3 18
+#define DATAPIN_LEDSTRIP_2 17
 #define BRIGHTNESS  255
 
 // Config
-#define JOYSTICK_ITEM_COUNT 4
-#define HELLIGKEIT_CONFIG_ITEM_INDEX 0
-#define JANEIN_ITEM 1
+#define JOYSTICK_ITEM_COUNT 10
+
+#define CONFIG_ITEM_NAME_PRESETS            "Vorgaben"
+#define CONFIG_ITEM_NAME_BRIGHTNESS         "Helligkeit"
+#define CONFIG_ITEM_NAME_HUE                "Farbton"
+#define CONFIG_ITEM_NAME_SATURATION         "Sättigung"
+#define CONFIG_ITEM_NAME_STRIPS             "Led Streifen"
+#define CONFIG_ITEM_NAME_COLOR_ROTATION     "Farbwechselgeschwindigkeit"
+#define CONFIG_ITEM_NAME_LINES              "Zeilen" 
+#define CONFIG_ITEM_NAME_POSITION           "Position"
+#define CONFIG_ITEM_NAME_SPECTRUM           "Farbverlauf"
+#define CONFIG_ITEM_NAME_INFORMATION        "Information"
 
 #endif

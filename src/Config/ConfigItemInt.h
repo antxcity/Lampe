@@ -4,7 +4,7 @@
 #include "ConfigJoystickItem.h"
 
 class ConfigItemInt : public ConfigJoystickItem {
-private:
+protected:
     int m_value;
     int m_min_value = 0;
     int m_max_value = 255;
@@ -14,10 +14,10 @@ public:
     ConfigItemInt(Config *config, String title, int value, int min_value = 0, int max_value = 255, int steps = 1);
     
     virtual String getValueType() { return "Int"; };
-    void setValue(int value);
-    int getValue() { return m_value; };
+    virtual void setValue(int value);
+    virtual int getValue() { return m_value; };
 
-    virtual String getDisplayString() { String(m_value); };
+    virtual String getDisplayString() { return String(m_value); };
 
     void setMinValue(int min_value);
     int getMinValue() { return m_min_value; };
@@ -30,6 +30,7 @@ public:
 
     virtual void incrementValue();
     virtual void decrementValue();
+
 };
 
 class ConfigItemVolume : public ConfigItemInt {

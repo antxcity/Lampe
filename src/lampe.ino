@@ -6,7 +6,7 @@ Lamp *lamp;
 void setup() {
     lamp = new Lamp();
 
-    Serial.begin(9600);
+    Serial.begin(921600);
 }
 
 void loop() {

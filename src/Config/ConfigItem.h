@@ -9,14 +9,16 @@ class Config;
 class ConfigItem {
 private:
     Config *m_config;
-
-public:
     String m_title;
 
+public:
+
     ConfigItem(Config *config, String title);
+    String getTitle() { return m_title; };
     virtual String getValueType();
+    virtual String getDisplayString() { return ""; };
+    
     Config *getConfig();
-    virtual String getDisplayString() {};
 };
 
 #endif

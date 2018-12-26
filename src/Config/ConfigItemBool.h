@@ -4,7 +4,7 @@
 #include "ConfigJoystickItem.h"
 
 class ConfigItemBool : public ConfigJoystickItem {
-private:
+protected:
     bool m_value;
 
 public:
@@ -12,7 +12,7 @@ public:
 
     virtual String getValueType() { return "Bool"; };
     void setValue(bool value);
-    bool getValue() { return m_value; };
+    virtual bool getValue() { return m_value; };
 
     virtual String getDisplayString() { return m_value ? "Ja" : "Nein"; };
 

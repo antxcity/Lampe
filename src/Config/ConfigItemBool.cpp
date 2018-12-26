@@ -10,7 +10,7 @@ ConfigItemBool::ConfigItemBool(Config *config, String title, bool value)
 void ConfigItemBool::setValue(bool value) { 
     if (m_value != value) {
         m_value = value; 
-        getConfig()->setChanged();
+        getConfig()->setChanged(this);
     }
 }
 

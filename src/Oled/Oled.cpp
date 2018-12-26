@@ -4,6 +4,7 @@ Oled::Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolut
     display(interface, SCL_pin, SDA_pin, resolution)
 {
     display.init();
+    display.flipScreenVertically();
 }
 
 void Oled::showBar(String title, int value, int min_value, int max_value) {
@@ -38,6 +39,14 @@ void Oled::showMessage(String message) {
     display.clear();
     display.setFont(ArialMT_Plain_16);
     display.drawString(0, 0, message);
+    display.display();
+}
+
+void Oled::showString(String title, String value) {
+    display.clear();
+    display.setFont(ArialMT_Plain_16);
+    display.drawString(0, 0, title + ":");
+    display.drawString(0, 16, value);
     display.display();
 }
 

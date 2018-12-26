@@ -5,32 +5,40 @@
 #include "ConfigJoystickItem.h"
 #include "ConfigItemBool.h"
 #include "ConfigItemInt.h"
+#include "LampConfigItem/LampConfigItem.h"
 
 class Config {
 private:
     ConfigJoystickItem *joystick_config_items[JOYSTICK_ITEM_COUNT] = {
-        new ConfigItemPresets(this),
-        new ConfigItemValue(this),
-        new ConfigItemSaturation(this),
-        new ConfigItemHue(this),
-        new ConfigItemStrips(this),
-        new ConfigItemLines(this),
-        new ConfigItemPosition(this),
-        new ConfigItemColorRotation(this),
-        new ConfigItemSpectrum(this),
-        new ConfigItemEffects(this),
-        new ConfigItemInfo(this),
+        new ConfigItemPresets(this),        // Vorgaben
+        new ConfigItemTimer(this),          // Automatik
+        new ConfigItemBrightness(this),     // Helligkeit (DEFAULT)
+        new ConfigItemHue(this),            // Farbton
+        new ConfigItemSaturation(this),     // Sättigung
+        new ConfigItemStrips(this),         // wich strip
+        new ConfigItemLines(this),          // Leds per Strip
+        new ConfigItemPosition(this),       // Verschiebung
+        new ConfigItemColorRotation(this),  // Farbrotation
+        new ConfigItemSpectrum(this),       // Farbverlauf
+        new ConfigItemBrightness(this),     // Helligkeitsverlauf
+        new ConfigItemInfo(this)            // Informationen
     };
-    bool m_changed = false;
+    ConfigItem *m_changed = 0;
 
 public:
     int getJoystickItemCount();
     ConfigJoystickItem *getJoystickConfigItem(int index);
+    ConfigJoystickItem *getJoystickConfigItem(String name);
     ConfigJoystickItem *getJoystickItems();
 
-    void setChanged() { m_changed = true; };
-    void setUnchanged() { m_changed = false; };
-    bool isChanged() { return m_changed; };
+    int getConfigIntValue(String title);
+    void setConfigIntValue(String title, int value);
+
+
+    void setChanged(ConfigItem *configitem) { m_changed = configitem; };
+    void setUnchanged() { m_changed = 0; };
+    bool isChanged() { return m_changed ? true : false; };
+    ConfigItem *getChangedItem() { return m_changed; };
 };
 
 

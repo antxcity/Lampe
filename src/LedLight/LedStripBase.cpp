@@ -14,13 +14,6 @@ void LedStripBase::fill_solid(const struct CRGB &color) {
     ::fill_solid(this->get_leds(), this->get_num_leds(), color);
 }
 
-void LedStripBase::show() {
-    if (_changed) {
-        FastLED.show();
-        _changed = false;
-    }
-}
-
 void LedStripBase::setSingleLed(int index, const struct CRGB &color) {
     if (index < 0 || index >= _num_leds)
         return;
@@ -30,5 +23,4 @@ void LedStripBase::setSingleLed(int index, const struct CRGB &color) {
     }
 
     _leds[index] = color;
-    _changed = true;
 }

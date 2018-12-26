@@ -13,15 +13,14 @@ class LampJoystickHandler;
 class Lamp
 {
 private:
-    LedLight m_ledLight;
-    Joystick *m_joystick;
-    LampJoystickHandler *m_joystickHandler;
-
-    int m_currentConfigItem = 0;
-    bool m_displayActive = false;
-
     Oled *m_oled;
     Config *m_config;
+    Joystick *m_joystick;
+    LampJoystickHandler *m_joystickHandler;
+    LedLight m_ledLight;
+
+    int m_currentConfigItem = 1;
+    bool m_displayActive = true;
 
 protected:
     void _show();
