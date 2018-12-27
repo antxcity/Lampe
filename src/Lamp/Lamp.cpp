@@ -10,6 +10,7 @@ Lamp::Lamp()
     m_joystick = new Joystick(JOY_X_PIN, JOY_Y_PIN, JOY_S_PIN);
     m_joystickHandler = new LampJoystickHandler(this);
     m_ledLight.applyLowLight(m_config);
+    m_config->setChanged(m_config->getJoystickConfigItem(m_currentConfigItem));
 }
 
 Lamp::~Lamp() {
@@ -88,6 +89,9 @@ void Lamp::_show() {
     }
 
     m_ledLight.applyConfig(m_config);
+    if (m_config->isChanged()) {
+        m_config->setUnchanged();
+    }
 };
 
 void Lamp::onJoystickUp() {

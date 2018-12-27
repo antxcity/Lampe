@@ -43,6 +43,8 @@ public:
     void onJoystickUp();
     void onJoystickDown();
     void onJoystickButton();        
+
+    unsigned long millis() { return (unsigned long) (esp_timer_get_time() / 1000); };
 };
 
 #endif

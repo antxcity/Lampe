@@ -8,8 +8,8 @@ LampJoystickHandler::LampJoystickHandler(Lamp *lamp)
 }
 
 void LampJoystickHandler::initDelay() {
-    m_first_hit_time = millis();
-    m_last_hit_time = millis();    
+    m_first_hit_time = m_lamp->millis();
+    m_last_hit_time = m_lamp->millis();    
 }
 
 void LampJoystickHandler::stopDelay() {
@@ -18,13 +18,13 @@ void LampJoystickHandler::stopDelay() {
 }
 
 bool LampJoystickHandler::isDelayDone() {
-    if (millis() - m_first_hit_time < m_delay)
+    if (m_lamp->millis() - m_first_hit_time < m_delay)
         return false;
 
-    if (millis() - m_last_hit_time  < m_rate)
+    if (m_lamp->millis() - m_last_hit_time  < m_rate)
         return false;
 
-    m_last_hit_time = millis();
+    m_last_hit_time = m_lamp->millis();
 
     return true;
 }

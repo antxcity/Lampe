@@ -23,10 +23,12 @@ public:
     void applyConfig(Config *config);
     void show();
     void resetTimer();
+    unsigned long millis() { return (unsigned long) (esp_timer_get_time() / 1000); };
+
 
     int getTimeOut() { return m_timeout; };
     int getCurrentTimeLeft() { return m_time_left; };
-    int idleSince() { return (millis() - m_last_action_time) / 1000; };
+    int idleSince() { return (this->millis() - m_last_action_time) / 1000; };
 
     void applyDayLight(Config *config);
     void applyRedLight(Config *config);

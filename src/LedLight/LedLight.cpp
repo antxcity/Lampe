@@ -22,7 +22,7 @@ void LedLight::show() {
 }
 
 void LedLight::resetTimer() {
-    m_last_action_time = millis();
+    m_last_action_time = this->millis();
 }
 
 void LedLight::applyConfig(Config *config) {
@@ -77,16 +77,16 @@ void LedLight::applyConfig(Config *config) {
         uint32_t timed_brightness_shift = 255;
 
         if (color_rotation) 
-            timed_color_shift = millis()/(1000/(color_rotation * color_rotation * color_rotation * color_rotation)) % 255;
+            timed_color_shift = this->millis()/(1000/(color_rotation * color_rotation * color_rotation * color_rotation)) % 255;
         if (brightness_rotation) 
         {
             int d = 10000 / brightness_rotation^5;
-            timed_brightness_shift = millis()%d;
+            timed_brightness_shift = this->millis()%d;
             timed_brightness_shift = timed_brightness_shift > d/2 ? d-timed_brightness_shift : timed_brightness_shift;
             timed_brightness_shift = map(timed_brightness_shift, 0, d/2, 0, 255);
         }
 
-        long elapsed_time = (millis() - m_last_action_time) / 1000;
+        long elapsed_time = (this->millis() - m_last_action_time) / 1000;
         m_timeout = ci_timer->getTimeoutValue();
 
         // if we reached the timeout
@@ -120,7 +120,7 @@ void LedLight::applyConfig(Config *config) {
                 int fade_faktor = 255;
                 // wenn restzeitgrenze unterschritten, dann nach dunkel faden
                 if ( m_timeout >0 && m_time_left <= restzeitgrenze ) {
-                    long praezise_restzeit = max(0, m_timeout * 1000 - (millis() - m_last_action_time));
+                    long praezise_restzeit = max(0, m_timeout * 1000 - (this->millis() - m_last_action_time));
                     fade_faktor = map(praezise_restzeit, 0, 1000*restzeitgrenze, 0, 255);
                 }
 
@@ -153,9 +153,6 @@ void LedLight::applyConfig(Config *config) {
                 }
                 show();
             }
-        }
-        if (config->isChanged()) {
-            config->setUnchanged();
         }
     }
     catch (String error) {
