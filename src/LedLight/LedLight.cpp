@@ -206,7 +206,7 @@ void LedLight::applyDayLight(Config *config)
 void LedLight::applyFullLight(Config *config)
 {
     try {
-        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 110);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 255);
         config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 72);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, m_ledstrips[0]->get_num_leds());
