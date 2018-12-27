@@ -31,6 +31,7 @@ public:
     void applyRedLight(Config *config);
     void applyBlueLight(Config *config);
     void applyLowLight(Config *config);
+    void applyFullLight(Config *config);
 }; 
 
 

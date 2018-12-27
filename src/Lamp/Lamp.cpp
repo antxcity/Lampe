@@ -70,6 +70,10 @@ void Lamp::_show() {
     else if ( ci->getValueType().equalsIgnoreCase("String") ) {
         m_oled->showString(ci->getTitle(), ci->getDisplayString());
     }
+    else if ( ci->getValueType().equalsIgnoreCase("IntSlider") ) {
+        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
+        m_oled->showSlider(ci_int->getTitle(), ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue());
+    }
     else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
         ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
         m_oled->showBar(ci_int->getTitle(), ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue());

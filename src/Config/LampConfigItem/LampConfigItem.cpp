@@ -11,9 +11,12 @@ String ConfigItemPresets::getDisplayString()
             result = "Tageslicht";
             break;
         case 2:
-            result = "Rotlicht";
+            result = "volles Licht";
             break;
         case 3:
+            result = "Rotlicht";
+            break;
+        case 4:
             result = "Blaulicht";
             break;
         case 0:

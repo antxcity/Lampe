@@ -90,6 +90,8 @@ class ConfigItemPosition : public ConfigItemInt
 public:
     ConfigItemPosition(Config *config)
     : ConfigItemInt(config, CONFIG_ITEM_NAME_POSITION, 0, 0, NUM_LEDS_PER_STRIP) {};
+    virtual String getValueType() { return "IntSlider"; };
+
 };
 
 class ConfigItemColorRotation : public ConfigItemInt

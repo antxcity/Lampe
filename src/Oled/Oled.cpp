@@ -77,10 +77,10 @@ void Oled::showUpDownIndicator(bool up, bool down) {
     display.setColor(WHITE);
     for(int i = 0; i < 6; i++ ) {
         if (up)
-            display.drawHorizontalLine(display.width() + i - 10, 6 - i, display.width() - i);
+            display.drawHorizontalLine(display.width() + i - 10, 6 - i, 11 - i*2);
 
         if (down)
-            display.drawHorizontalLine(display.width() + i - 10, 9 + i, display.width() - i);
+            display.drawHorizontalLine(display.width() + i - 10, 9 + i, 11 - i*2);
     }
     display.display();
 }

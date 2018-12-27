@@ -37,10 +37,13 @@ void LedLight::applyConfig(Config *config) {
                 case 1: // Tageslicht
                     applyDayLight(config);
                     break;
-                case 2: // Rotlicht
+                case 2:
+                    applyFullLight(config);
+                    break;
+                case 3: // Rotlicht
                     applyRedLight(config);
                     break;
-                case 3: // Blaulicht
+                case 4: // Blaulicht
                     applyBlueLight(config);
                     break;
             }
@@ -160,7 +163,7 @@ void LedLight::applyLowLight(Config *config)
         config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 100);
         config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 0);
-        config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 255);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, m_ledstrips[0]->get_num_leds());
         config->setConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION, 0);
@@ -179,8 +182,26 @@ void LedLight::applyDayLight(Config *config)
 {
     try {
         config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 100);
-        config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 45);
-        config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 255);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 72);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 147);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, m_ledstrips[0]->get_num_leds());
+        config->setConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+    }
+    catch (String error)
+    {
+        Serial.println("*** Error:" + error);
+    }
+}
+
+void LedLight::applyFullLight(Config *config)
+{
+    try {
+        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 110);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 72);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, m_ledstrips[0]->get_num_leds());
         config->setConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
@@ -197,7 +218,7 @@ void LedLight::applyRedLight(Config *config)
 {
     try {
         config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 100);
-        config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 95);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 255);
         config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, m_ledstrips[0]->get_num_leds());
         config->setConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION, 0);
