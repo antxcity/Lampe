@@ -19,7 +19,7 @@ private:
     LampJoystickHandler *m_joystickHandler;
     LedLight m_ledLight;
 
-    int m_currentConfigItem = 1;
+    int m_currentConfigItem = 2;
     bool m_displayActive = true;
 
 protected:

@@ -65,9 +65,9 @@ void Oled::showString(String title, String value) {
 
 void Oled::showTimerBar(int value, int maxValue) {
     display.setColor(BLACK);
-    drawHorizontalLine(0, 0, display.width();
+    display.drawHorizontalLine(0, 0, display.width());
     display.setColor(WHITE);
-    drawHorizontalLine(0, 0, map(value, 0, maxValue, 0, display.width()));
+    display.drawHorizontalLine(0, 0, map(value, 0, maxValue, 0, display.width()));
     display.display();
 }
 
@@ -77,10 +77,10 @@ void Oled::showUpDownIndicator(bool up, bool down) {
     display.setColor(WHITE);
     for(int i = 0; i < 6; i++ ) {
         if (up)
-            display.drawHorizontalLine(display.width() + i - 10, 6 - i, display.width() - i, 6 - i);
+            display.drawHorizontalLine(display.width() + i - 10, 6 - i, display.width() - i);
 
         if (down)
-            display.drawHorizontalLine(display.width() + i - 10, 9 + i, display.width() - i, 9 + i);
+            display.drawHorizontalLine(display.width() + i - 10, 9 + i, display.width() - i);
     }
     display.display();
 }

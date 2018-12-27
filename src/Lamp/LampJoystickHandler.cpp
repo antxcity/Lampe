@@ -68,6 +68,9 @@ void LampJoystickHandler::onDownIn() {
 void LampJoystickHandler::onUpIn() { 
     m_lamp->onJoystickUp(); 
 }
+void LampJoystickHandler::onSwitchDown() { 
+    m_lamp->onJoystickButton(); 
+}
 
 /*
 void LampJoystickHandler::onChanged() { 

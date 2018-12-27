@@ -25,17 +25,20 @@
 #define BRIGHTNESS  255
 
 // Config
-#define JOYSTICK_ITEM_COUNT 10
+#define JOYSTICK_ITEM_COUNT 14
 
-#define CONFIG_ITEM_NAME_PRESETS            "Vorgaben"
-#define CONFIG_ITEM_NAME_BRIGHTNESS         "Helligkeit"
-#define CONFIG_ITEM_NAME_HUE                "Farbton"
-#define CONFIG_ITEM_NAME_SATURATION         "Sättigung"
-#define CONFIG_ITEM_NAME_STRIPS             "Led Streifen"
-#define CONFIG_ITEM_NAME_COLOR_ROTATION     "Farbwechselgeschwindigkeit"
-#define CONFIG_ITEM_NAME_LINES              "Zeilen" 
-#define CONFIG_ITEM_NAME_POSITION           "Position"
-#define CONFIG_ITEM_NAME_SPECTRUM           "Farbverlauf"
-#define CONFIG_ITEM_NAME_INFORMATION        "Information"
+#define CONFIG_ITEM_NAME_PRESETS                "Vorgaben"
+#define CONFIG_ITEM_NAME_TIMER                  "Abschalttimer"
+#define CONFIG_ITEM_NAME_BRIGHTNESS             "Helligkeit"
+#define CONFIG_ITEM_NAME_HUE                    "Farbton"
+#define CONFIG_ITEM_NAME_SATURATION             "Sättigung"
+#define CONFIG_ITEM_NAME_STRIPS                 "LED Streifen"
+#define CONFIG_ITEM_NAME_COLOR_ROTATION         "Farbwechsel"
+#define CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION     "Helligkeitswechs."
+#define CONFIG_ITEM_NAME_LINES                  "Zeilen" 
+#define CONFIG_ITEM_NAME_POSITION               "Position"
+#define CONFIG_ITEM_NAME_SPECTRUM               "Farbverlauf"
+#define CONFIG_ITEM_NAME_BRIGHTNESS_GRADIENT    "Helligkeitsverlauf"
+#define CONFIG_ITEM_NAME_INFORMATION            "Information"
 
 #endif

@@ -20,7 +20,8 @@ private:
         new ConfigItemPosition(this),       // Verschiebung
         new ConfigItemColorRotation(this),  // Farbrotation
         new ConfigItemSpectrum(this),       // Farbverlauf
-        new ConfigItemBrightness(this),     // Helligkeitsverlauf
+        new ConfigItemBrightnessRotation(this),  // Farbrotation
+        new ConfigItemBrightnessGradient(this),     // Helligkeitsverlauf
         new ConfigItemInfo(this)            // Informationen
     };
     ConfigItem *m_changed = 0;
@@ -28,7 +29,7 @@ private:
 public:
     int getJoystickItemCount();
     ConfigJoystickItem *getJoystickConfigItem(int index);
-    ConfigJoystickItem *getJoystickConfigItem(String name);
+    ConfigJoystickItem *getJoystickConfigItem(String name, bool xc_on_not_found = true);
     ConfigJoystickItem *getJoystickItems();
 
     int getConfigIntValue(String title);

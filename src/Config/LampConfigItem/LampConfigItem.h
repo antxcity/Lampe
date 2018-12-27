@@ -19,7 +19,7 @@ public:
 class ConfigItemTimer : public ConfigItemInt
 {
 private:    
-    static const int __string_count = 6;
+    static const int __string_count = 7;
     const String m_infoStrings[__string_count] = {
         "Aus (Dauerlicht)",
         "10 Sekunden",
@@ -29,16 +29,16 @@ private:
         "30 Minuten",
         "60 Minuten"
     };
-    int m_timeouts[6] = { 10, 1*60, 5*60, 15*60, 30*60, 60*60 };
+    int m_timeouts[__string_count] = { -1, 10, 1*60, 5*60, 15*60, 30*60, 60*60 };
 
 public:
     ConfigItemTimer(Config *config)
-    : ConfigItemInt(config, CONFIG_ITEM_NAME_BRIGHTNESS, 10, 0, 255) {};
+    : ConfigItemInt(config, CONFIG_ITEM_NAME_TIMER, 0, 0, __string_count - 1) {};
 
-    virtual void setValue(int value);
     virtual String getValueType() { return "String"; };
-
-    virtual String getDisplayString();
+    virtual String getDisplayString() { return m_infoStrings[ getValue() % __string_count ]; };
+    
+    int getTimeoutValue() { return m_timeouts[getValue()]; };
 };
 
 class ConfigItemBrightness : public ConfigItemInt
@@ -102,6 +102,28 @@ public:
     virtual String getDisplayString();
 };
 
+class ConfigItemBrightnessRotation : public ConfigItemInt
+{
+private:
+    static const int __string_count = 7;
+    const String m_infoStrings[__string_count] = {
+        "keine / Stillstand",
+        "sehr langsam",
+        "langsam",
+        "mittel",
+        "schnell",
+        "sehr schnell",
+        "keine / Stillstand",
+    };
+
+public:
+    ConfigItemBrightnessRotation(Config *config)
+    : ConfigItemInt(config, CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION, 0, 0, __string_count - 1) {};
+
+    virtual String getValueType() { return "String"; };
+    virtual String getDisplayString() { return m_infoStrings[ getValue() % __string_count ]; };
+};
+
 class ConfigItemSpectrum : public ConfigItemInt
 {
 public:
@@ -109,8 +131,14 @@ public:
     : ConfigItemInt(config, CONFIG_ITEM_NAME_SPECTRUM, 0, 0, 255) {};
 
 };
-       
 
+class ConfigItemBrightnessGradient : public ConfigItemInt
+{
+public:
+    ConfigItemBrightnessGradient(Config *config)
+    : ConfigItemInt(config, CONFIG_ITEM_NAME_BRIGHTNESS_GRADIENT, 0, 0, 255) {};
+};
+      
 class ConfigItemInfo : public ConfigItemInt
 {
 private:

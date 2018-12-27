@@ -35,6 +35,7 @@ public:
     //virtual void onDown();
 
     virtual void onUpIn();
+    virtual void onSwitchDown();
     //virtual void onUp();
   //  virtual void onChanged();
 /*

@@ -29,6 +29,11 @@ Joystick *Lamp::getJoystick()
 void Lamp::loop() {
     m_joystick->read();
     m_ledLight.applyConfig(m_config);
+    if (m_ledLight.getTimeOut() > 0)
+        m_oled->showTimerBar(m_ledLight.getCurrentTimeLeft(), m_ledLight.getTimeOut());
+
+    m_oled->showUpDownIndicator(m_currentConfigItem > 0, m_currentConfigItem < JOYSTICK_ITEM_COUNT-1);
+    //Serial.println(String("Timeout: ") + String(m_ledLight.getTimeOut()) + "Time left: " + m_ledLight.getCurrentTimeLeft());
 }
 
 void Lamp::onJoystickLeft() {
@@ -114,14 +119,14 @@ void Lamp::onJoystickDown() {
 };
 
 void Lamp::onJoystickButton() {
+    m_ledLight.resetTimer();
+    m_config->setChanged(m_config->getJoystickConfigItem(m_currentConfigItem));
+    _show();
     if (!m_displayActive) {
         activateDisplay();
         return;
     }
 
-    m_oled->showMessage("button pressed");
-    delay(100);
-    activateDisplay();
 };
 
 void Lamp::activateDisplay() {

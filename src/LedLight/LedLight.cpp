@@ -58,25 +58,34 @@ void LedLight::applyConfig(Config *config) {
         int lines = config->getConfigIntValue(CONFIG_ITEM_NAME_LINES) + 1;
         int shift_area = (num_leds - lines);
         int position = map(config->getConfigIntValue(CONFIG_ITEM_NAME_POSITION), 0, num_leds, 0, shift_area + 1);
-        int rotation_speed = config->getConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION);
+        int color_rotation = config->getConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION);
         int spectrum = config->getConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM);
+        int brightness_gradients = config->getConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_GRADIENT);
+        int brightness_rotation = config->getConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION);
         // get strips config item 
         ConfigItemStrips *ci_strips = dynamic_cast<ConfigItemStrips *>(config->getJoystickConfigItem(CONFIG_ITEM_NAME_STRIPS));
-        if ( !ci_strips) return;
+        ConfigItemTimer *ci_timer = dynamic_cast<ConfigItemTimer *>(config->getJoystickConfigItem(CONFIG_ITEM_NAME_TIMER));
+        int timeout_value = config->getConfigIntValue(CONFIG_ITEM_NAME_TIMER);
 
         uint32_t timed_color_shift = 0;
+        uint32_t timed_brightness_shift = 255;
 
-        if (rotation_speed) 
-            timed_color_shift = millis()/(1000/(rotation_speed * rotation_speed * rotation_speed * rotation_speed)) % 255;
+        if (color_rotation) 
+            timed_color_shift = millis()/(1000/(color_rotation * color_rotation * color_rotation * color_rotation)) % 255;
+        if (brightness_rotation) 
+        {
+            int d = 10000 / brightness_rotation^5;
+            timed_brightness_shift = millis()%d;
+            timed_brightness_shift = timed_brightness_shift > d/2 ? d-timed_brightness_shift : timed_brightness_shift;
+            timed_brightness_shift = map(timed_brightness_shift, 0, d/2, 0, 255);
+        }
 
         long elapsed_time = (millis() - m_last_action_time) / 1000;
-        int timeout_value = 1; // dummy - must be configurable
-        long timeout = timeout_value > 0 ? m_timeouts[timeout_value - 1] : 10000000 + elapsed_time;
-
+        m_timeout = ci_timer->getTimeoutValue();
 
         // if we reached the timeout
-        if (elapsed_time >= timeout) {
-            if ( m_last_elapsed_time != -1 ) {
+        if (m_timeout > 0 && elapsed_time >= m_timeout) {
+            if (m_last_elapsed_time != -1 ) {
                 m_last_elapsed_time = -1;
 
                 for ( int n = 0; n < num_leds; n++ ) {
@@ -86,33 +95,45 @@ void LedLight::applyConfig(Config *config) {
                 }
                 show();
             }
+            m_time_left = 0;
         }
         else {
-            long restzeit = timeout - elapsed_time;
-            long restzeitgrenze = min(60, (20 * timeout) / 100); // 10 % des timeouts aber höchstens 1 minute
-
+            long restzeitgrenze = 60;
+            m_time_left = m_timeout;
+            if (m_timeout > 0) {
+                m_time_left = m_timeout - elapsed_time;
+                restzeitgrenze = min(60, (20 * m_timeout) / 100); // 10 % des timeouts aber höchstens 1 minute
+            }
+            
             if ( m_last_elapsed_time != elapsed_time ) {
                 m_last_elapsed_time = elapsed_time;
             }
 
-            if ( config->isChanged() || rotation_speed || restzeit <= restzeitgrenze)
+            if ( config->isChanged() || brightness_rotation ||  color_rotation || m_time_left <= restzeitgrenze)
             {
                 int fade_faktor = 255;
                 // wenn restzeitgrenze unterschritten, dann nach dunkel faden
-                if ( restzeit <= restzeitgrenze ) {
-                    long praezise_restzeit = max(0, timeout * 1000 - (millis() - m_last_action_time));
+                if ( m_timeout >0 && m_time_left <= restzeitgrenze ) {
+                    long praezise_restzeit = max(0, m_timeout * 1000 - (millis() - m_last_action_time));
                     fade_faktor = map(praezise_restzeit, 0, 1000*restzeitgrenze, 0, 255);
-                    //Serial.println("praezise restzeit: " + String(praezise_restzeit) + " -> fade: " + String(fade_faktor) + " Restzeitgrenze: " + String(restzeitgrenze));
                 }
 
-                Serial.println("-----------------");
                 for ( int n = 0; n < num_leds; n++ ) {
                     CRGB color = CRGB::Black;
 
                     if (n >= position && n < position + lines) {
-                        int ma = map(n - position, 0, lines, 0, spectrum*5);
-                        Serial.println("ma: " + String(ma));
-                        color = CHSV((hue + ma + timed_color_shift) % 255, saturation, brightness * fade_faktor / 255);
+                        int color_gradient_offset = map(n - position, 0, lines, 0, spectrum * 5);
+                        int brightness_gradient_offset = map(n - position, 0, lines, 0, brightness_gradients * 5);
+
+                        int h = (hue + color_gradient_offset + timed_color_shift) % 255;
+                        int s = saturation;
+                        int v = (brightness); // + brightness_gradient_offset
+
+                        //v = (v * brightness_gradient_offset) / 255;
+                        v = (v * timed_brightness_shift) / 255;
+                        v = (v * fade_faktor) / 255;
+
+                        color = CHSV(h, s, v);
                     }
 
                     for ( int strip_index = 0; strip_index < NUM_STRIPS; strip_index++ ) {
@@ -136,14 +157,17 @@ void LedLight::applyConfig(Config *config) {
 void LedLight::applyLowLight(Config *config)
 {
     try {
+        config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 100);
         config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 255);
         config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, m_ledstrips[0]->get_num_leds());
         config->setConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
-        config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 5);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_GRADIENT, 0);
     }
     catch (String error)
     {
