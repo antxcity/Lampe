@@ -6,7 +6,7 @@ LedLight::LedLight() {
     m_ledstrips[2] = new LedStrip<NUM_LEDS_PER_STRIP, DATAPIN_LEDSTRIP_3>;
 
     FastLED.setDither(DISABLE_DITHER);
-    m_last_action_time = millis();
+    resetTimer();
     m_last_elapsed_time = 0;
 }
 
@@ -40,10 +40,13 @@ void LedLight::applyConfig(Config *config) {
                 case 2:
                     applyFullLight(config);
                     break;
-                case 3: // Rotlicht
+                case 3:
+                    applyReadingLight(config);
+                    break;
+                case 4: // Rotlicht
                     applyRedLight(config);
                     break;
-                case 4: // Blaulicht
+                case 5: // Blaulicht
                     applyBlueLight(config);
                     break;
             }
@@ -58,12 +61,12 @@ void LedLight::applyConfig(Config *config) {
         int brightness = config->getConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS);
         int hue = config->getConfigIntValue(CONFIG_ITEM_NAME_HUE);
         int saturation = config->getConfigIntValue(CONFIG_ITEM_NAME_SATURATION);
-        int lines = config->getConfigIntValue(CONFIG_ITEM_NAME_LINES) + 1;
+        int lines = config->getConfigIntValue(CONFIG_ITEM_NAME_LINES);
         int shift_area = (num_leds - lines);
-        int position = map(config->getConfigIntValue(CONFIG_ITEM_NAME_POSITION), 0, num_leds, 0, shift_area + 1);
+        int position = map(config->getConfigIntValue(CONFIG_ITEM_NAME_POSITION), 0, num_leds, 0, shift_area);
         int color_rotation = config->getConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION);
         int spectrum = config->getConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM);
-        int brightness_gradients = config->getConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_GRADIENT);
+        int brightness_gradients = 0; //config->getConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_GRADIENT);
         int brightness_rotation = config->getConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION);
         // get strips config item 
         ConfigItemStrips *ci_strips = dynamic_cast<ConfigItemStrips *>(config->getJoystickConfigItem(CONFIG_ITEM_NAME_STRIPS));
@@ -151,6 +154,9 @@ void LedLight::applyConfig(Config *config) {
                 show();
             }
         }
+        if (config->isChanged()) {
+            config->setUnchanged();
+        }
     }
     catch (String error) {
         Serial.println("*** Error:" + error);
@@ -189,6 +195,7 @@ void LedLight::applyDayLight(Config *config)
         config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 0);
     }
     catch (String error)
     {
@@ -207,6 +214,7 @@ void LedLight::applyFullLight(Config *config)
         config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 0);
     }
     catch (String error)
     {
@@ -225,6 +233,7 @@ void LedLight::applyRedLight(Config *config)
         config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 0);
     }
     catch (String error)
     {
@@ -243,6 +252,27 @@ void LedLight::applyBlueLight(Config *config)
         config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
         config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 0);
+    }
+    catch (String error)
+    {
+        Serial.println("*** Error:" + error);
+    }
+}
+
+void LedLight::applyReadingLight(Config *config)
+{
+    try {
+        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS, 255);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_HUE, 82);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SATURATION, 171);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_STRIPS, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_LINES, 8);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_POSITION, 29);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_COLOR_ROTATION, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_BRIGHTNESS_ROTAION, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_SPECTRUM, 0);
+        config->setConfigIntValue(CONFIG_ITEM_NAME_TIMER, 6);
     }
     catch (String error)
     {

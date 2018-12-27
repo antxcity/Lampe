@@ -21,7 +21,7 @@ private:
         new ConfigItemColorRotation(this),  // Farbrotation
         new ConfigItemSpectrum(this),       // Farbverlauf
         new ConfigItemBrightnessRotation(this),  // Farbrotation
-        new ConfigItemBrightnessGradient(this),     // Helligkeitsverlauf
+        // new ConfigItemBrightnessGradient(this),     // Helligkeitsverlauf
         new ConfigItemInfo(this)            // Informationen
     };
     ConfigItem *m_changed = 0;

@@ -82,7 +82,7 @@ class Joystick {
         int m_switch_pin = 0;
 
         int m_left_level_in     = 200;  // if x level below this value, we are entering the "left" area
-        int m_left_level_out    = 300; // if x level upper this value, we are leaving the "left" area
+        int m_left_level_out    = 250; // if x level upper this value, we are leaving the "left" area
 
         int m_right_level_in    = 4000;  // if x level upper this value, we are entering the right area
         int m_right_level_out   = 3900; // if x level below this value, we are leaving the right area

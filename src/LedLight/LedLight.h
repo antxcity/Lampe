@@ -26,12 +26,14 @@ public:
 
     int getTimeOut() { return m_timeout; };
     int getCurrentTimeLeft() { return m_time_left; };
+    int idleSince() { return (millis() - m_last_action_time) / 1000; };
 
     void applyDayLight(Config *config);
     void applyRedLight(Config *config);
     void applyBlueLight(Config *config);
     void applyLowLight(Config *config);
     void applyFullLight(Config *config);
+    void applyReadingLight(Config *config);
 }; 
 
 

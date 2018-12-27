@@ -6,12 +6,13 @@
 class Oled {
     private:
         SSD1306Wire display;
+        bool m_displayActive = 1;
 
     public:
         Oled(int interface, int SCL_pin, int SDA_pin, OLEDDISPLAY_GEOMETRY resolution);
 
         void showBar(String title, int value, int min_value, int max_value);
-        void showSlider(String title, int value, int min_value, int max_value);
+        void showSlider(String title, int value, int min_value, int max_value, int width);
         void showVolumeBar(String title, int value, int min_value, int max_value);
         void showBool(String title, bool value);
         void showMessage(String message);
@@ -21,6 +22,7 @@ class Oled {
 
         void activate();
         void deactivate();
+        bool isActive() { return m_displayActive; };
 };
 
 #endif

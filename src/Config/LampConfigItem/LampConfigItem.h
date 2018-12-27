@@ -6,14 +6,24 @@
 
 class ConfigItemPresets : public ConfigItemInt
 {
+private:    
+    static const int __string_count = 6;
+    const String m_infoStrings[__string_count] = {
+        "bitte wählen",
+        "Tageslicht",
+        "volles Licht",
+        "Leselicht",
+        "Rotlicht",
+        "Blaulicht"
+    };
 public:
     ConfigItemPresets(Config *config)
-    : ConfigItemInt(config, CONFIG_ITEM_NAME_PRESETS, 0, 0, 3) {};
+    : ConfigItemInt(config, CONFIG_ITEM_NAME_PRESETS, 0, 0, __string_count) {};
 
     virtual void setValue(int value);
     virtual String getValueType() { return "String"; };
 
-    virtual String getDisplayString();
+    virtual String getDisplayString() { return m_infoStrings[ getValue() % __string_count ]; };
 };
 
 class ConfigItemTimer : public ConfigItemInt
@@ -82,7 +92,7 @@ class ConfigItemLines : public ConfigItemInt
 {
 public:
     ConfigItemLines(Config *config)
-    : ConfigItemInt(config, CONFIG_ITEM_NAME_LINES, 0, 0, NUM_LEDS_PER_STRIP) {};
+    : ConfigItemInt(config, CONFIG_ITEM_NAME_LINES, 1, 1, NUM_LEDS_PER_STRIP) {};
 };
 
 class ConfigItemPosition : public ConfigItemInt
@@ -144,12 +154,13 @@ public:
 class ConfigItemInfo : public ConfigItemInt
 {
 private:
-    static const int __string_count = 5;
+    static const int __string_count = 6;
     const String m_infoStrings[__string_count] = {
-        "LED-Lampe für Mutti",
+        "Lampe für Mutti",
         "aus Eiche",
-        "zu Weihnachten 2018",
-        "von Andre und Christian",
+        "Weihnachten 2018",
+        "von Andre, ",
+        "Christian, ",
         "und Findus"
     };
 

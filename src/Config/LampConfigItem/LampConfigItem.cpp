@@ -2,31 +2,6 @@
 
 #include "../Config.h"
 
-String ConfigItemPresets::getDisplayString() 
-{ 
-    String result;
-
-    switch (getValue()) {
-        case 1:
-            result = "Tageslicht";
-            break;
-        case 2:
-            result = "volles Licht";
-            break;
-        case 3:
-            result = "Rotlicht";
-            break;
-        case 4:
-            result = "Blaulicht";
-            break;
-        case 0:
-        default:
-            result = "bitte wählen";
-            break;
-    }
-    return result;
-};
-
 void ConfigItemPresets::setValue(int value) {
         // Serial.println("ConfigItemPresets::setValue(int " + getTitle() + " : " + String(value) + ")");
         m_value = value; 

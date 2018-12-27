@@ -5,7 +5,7 @@ Lamp::Lamp()
     m_config = new Config;
 
     m_oled = new Oled(OLED_INTERFACE, OLED_SCL_PIN, OLED_SDA_PIN, GEOMETRY_128_32);
-    m_oled->showMessage("Welcome!");
+    m_oled->showMessage("Hallo Monika!");
 
     m_joystick = new Joystick(JOY_X_PIN, JOY_Y_PIN, JOY_S_PIN);
     m_joystickHandler = new LampJoystickHandler(this);
@@ -33,14 +33,14 @@ void Lamp::loop() {
         m_oled->showTimerBar(m_ledLight.getCurrentTimeLeft(), m_ledLight.getTimeOut());
 
     m_oled->showUpDownIndicator(m_currentConfigItem > 0, m_currentConfigItem < JOYSTICK_ITEM_COUNT-1);
+    if (m_ledLight.idleSince() >= 20)  
+        deactivateDisplay();
+
     //Serial.println(String("Timeout: ") + String(m_ledLight.getTimeOut()) + "Time left: " + m_ledLight.getCurrentTimeLeft());
 }
 
 void Lamp::onJoystickLeft() {
-    if ( !m_displayActive ) {
-        activateDisplay();
-        return;
-    }
+    activateDisplay();
 
     m_config->getJoystickConfigItem(m_currentConfigItem)->decrementValue();
 
@@ -48,10 +48,7 @@ void Lamp::onJoystickLeft() {
 };
 
 void Lamp::onJoystickRight() {
-    if ( !m_displayActive ) {
-        activateDisplay();
-        return;
-    }
+    activateDisplay();
 
     m_config->getJoystickConfigItem(m_currentConfigItem)->incrementValue();
 
@@ -62,7 +59,7 @@ void Lamp::_show() {
     ConfigJoystickItem *ci = m_config->getJoystickConfigItem(m_currentConfigItem);
     if ( !ci ) 
         return;
-
+ 
     if ( ci->getValueType().equalsIgnoreCase("Bool") ) {
         ConfigItemBool *ci_bool = dynamic_cast<ConfigItemBool *>(ci);
         m_oled->showBool(ci_bool->getTitle(), ci_bool->getValue());
@@ -70,9 +67,13 @@ void Lamp::_show() {
     else if ( ci->getValueType().equalsIgnoreCase("String") ) {
         m_oled->showString(ci->getTitle(), ci->getDisplayString());
     }
-    else if ( ci->getValueType().equalsIgnoreCase("IntSlider") ) {
+    else if ( ci->getTitle().equalsIgnoreCase(CONFIG_ITEM_NAME_POSITION)) {
         ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
-        m_oled->showSlider(ci_int->getTitle(), ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue());
+        m_oled->showSlider(ci_int->getTitle(), ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue(), m_config->getConfigIntValue(CONFIG_ITEM_NAME_LINES));
+    }
+    else if ( ci->getValueType().equalsIgnoreCase("IntSlider")) {
+        ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
+        m_oled->showSlider(ci_int->getTitle(), ci_int->getValue(), ci_int->getMinValue(), ci_int->getMaxValue(), 2);
     }
     else if ( ci->getValueType().equalsIgnoreCase("Int") ) {
         ConfigItemInt *ci_int = dynamic_cast<ConfigItemInt *>(ci);
@@ -87,37 +88,30 @@ void Lamp::_show() {
     }
 
     m_ledLight.applyConfig(m_config);
-    if (m_config->isChanged()) {
-        m_config->setUnchanged();
-    }
 };
 
 void Lamp::onJoystickUp() {
-    if (!m_displayActive) {
-        activateDisplay();
-        return;
-    }
-
+    activateDisplay();
+    
     if (m_currentConfigItem == 0)
         return;
 
     m_currentConfigItem--;
     m_ledLight.resetTimer();
+    m_config->setChanged(m_config->getJoystickConfigItem(m_currentConfigItem));
 
     _show();
 };
 
 void Lamp::onJoystickDown() {
-    if (!m_displayActive) {
-        activateDisplay();
-        return;
-    }
+    activateDisplay();
 
-    if (m_currentConfigItem == m_config->getJoystickItemCount() - 1)
+    if (m_currentConfigItem >= m_config->getJoystickItemCount() - 1)
         return;
 
     m_currentConfigItem++;
     m_ledLight.resetTimer();    
+    m_config->setChanged(m_config->getJoystickConfigItem(m_currentConfigItem));
 
     _show();
 };
@@ -126,21 +120,15 @@ void Lamp::onJoystickButton() {
     m_ledLight.resetTimer();
     m_config->setChanged(m_config->getJoystickConfigItem(m_currentConfigItem));
     _show();
-    if (!m_displayActive) {
-        activateDisplay();
-        return;
-    }
-
+    activateDisplay();
 };
 
 void Lamp::activateDisplay() {
-    m_displayActive = true;
-    m_oled->activate();
-
-    _show();
+    if (!m_oled->isActive())
+        m_oled->activate();
 }
 
 void Lamp::deactivateDisplay() {
-    m_displayActive = false;
-    m_oled->deactivate();
+    if (m_oled->isActive())
+        m_oled->deactivate();
 }

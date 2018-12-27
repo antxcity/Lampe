@@ -25,7 +25,7 @@
 #define BRIGHTNESS  255
 
 // Config
-#define JOYSTICK_ITEM_COUNT 14
+#define JOYSTICK_ITEM_COUNT 12
 
 #define CONFIG_ITEM_NAME_PRESETS                "Vorgaben"
 #define CONFIG_ITEM_NAME_TIMER                  "Abschalttimer"
